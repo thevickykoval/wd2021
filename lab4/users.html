@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON API</title>
+    <script type="text/javascript" src = "angular.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(133, 135, 158);
+            color: white;
+            font-family: 'Harrington';
+            padding: 100px 0;
+        }
+
+        .navbar{
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            max-width: 1300px;
+            padding-left: 550px;
+            padding-right: 25px;
+        }
+        nav{
+            flex: 1;
+            text-align: right;
+        }
+        nav ul{
+            display: inline-block;
+            list-style-type: none;
+        }
+        nav ul li{
+            display: inline-block;
+            margin-right: 10px;
+            padding: 7px;
+            font-size: 17px;
+        }
+
+        a{
+            text-decoration: none;
+            color:rgb(56, 54, 54);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="navbar">
+                <li><a href="index.html">Open Weather</a></li>
+                <li><a href="users.html">JSON Placeholder</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class='container'>
+        <h1>Click the button to fetch all of users data from JSONPlaceholder API</h1>
+        <button class='btn btn-light' id='getUsers'> Get Users </button>
+        <div class='mt-3' id='usersList'></div>
+    </div>
+
+    <script>
+        document.getElementById('getUsers').addEventListener('click', fetchUsers);
+
+        function fetchUsers() {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then((res) => {
+            return res.json();
+            })
+            .then((data) => {
+            let response = '';
+            for (let i = 0; i < data.length; i++) {
+                response += `<div>
+                                            <h2> <b>User ID: ${data[i].id}</b> </h2>
+                                                <ul>
+                                                    <li> <b>User Full Name</b>: ${data[i].name}</li>
+                                                    <li> <b>User Email</b>: ${data[i].email} </li>
+                                                    <li> <b>User Address</b>: ${data[i].address.city}, ${data[i].address.street}, ${data[i].address.suite}, ${data[i].address.zipcode} </li>
+                                                    <li> <b>User Geolocation</b> 
+                                                        <ul>
+                                                            <li> <b>Latitude</b>: ${data[i].address.geo.lat}</li>
+                                                            <li> <b>Longitude</b>: ${data[i].address.geo.lng}</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li> <b>User Phone</b>: ${data[i].phone}</li>
+                                                    <li> <b>User Website</b>: ${data[i].website}</li>
+                                                    <li> <b>User Company</b> 
+                                                        <ul>
+                                                            <li> <b>Company Name</b>: ${data[i].company.name}</li>
+                                                            <li> <b>Company Catchphrase</b>: ${data[i].company.catchPhrase}</li>
+                                                            <li> <b>Company BS</b>: ${data[i].company.bs}</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>`;
+            }
+
+            document.getElementById("usersList").innerHTML = response;
+            });
+        }
+    </script>
+</body>
+</html>
